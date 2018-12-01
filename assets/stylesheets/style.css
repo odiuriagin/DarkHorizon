@@ -1,6 +1,10 @@
+body {
+    background-color: black;
+}
+
 #wrapper {
-    width: 600px;
-    margin: 0 auto;
+    width: 800px;
+    margin: 30px auto;
 }
 
 canvas {
