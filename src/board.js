@@ -4,7 +4,7 @@ export default class Board {
 
         this.context = context;
         this.background = new Image();
-        this.background.src = '../assets/images/space-bg.png';
+        this.background.src = './assets/images/space-bg.png';
         this.size = {x: 800, y: 600};
     }
 

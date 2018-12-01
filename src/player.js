@@ -6,7 +6,7 @@ export default class Player {
 
         this.context = context;
         this.img = new Image();
-        this.img.src = '../assets/images/spaceship.png';
+        this.img.src = './assets/images/spaceship.png';
         this.timer = 0;
         this.pos = {x: 300, y: 300};
         this.fire = [];

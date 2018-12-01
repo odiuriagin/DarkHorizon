@@ -4,7 +4,7 @@ export default class Explosion {
 
         this.context = context;
         this.img = new Image();
-        this.img.src = '../assets/images/boom3.png';
+        this.img.src = './assets/images/boom3.png';
         this.pos = {x, y, animx, animy};
     }
 

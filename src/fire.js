@@ -4,7 +4,7 @@ export default class Fire {
 
         this.context = context;
         this.img = new Image();
-        this.img.src = '../assets/images/fire.png';
+        this.img.src = './assets/images/fire.png';
         this.pos = {x, y, dx, dy};
     }
 

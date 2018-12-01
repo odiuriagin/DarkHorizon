@@ -4,7 +4,7 @@ export default class Enemy {
 
         this.context = context;
         this.img = new Image();
-        this.img.src = '../assets/images/fighter.png';
+        this.img.src = './assets/images/fighter.png';
         this.explosion = [];
         this.pos = {x: Math.random()*600,
                     y: -60,
