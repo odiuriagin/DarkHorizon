@@ -5,6 +5,8 @@ const context = canvas.getContext("2d");
 
 let game = new Game(context);
 
-game.background.onload = () => {
+game.board.background.onload = () => {
     game.play();
 }
+
+

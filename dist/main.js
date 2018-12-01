@@ -86,6 +86,30 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/board.js":
+/*!**********************!*\
+  !*** ./src/board.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Board; });\nclass Board {\n\n    constructor(context) {\n\n        this.context = context;\n        this.background = new Image();\n        this.background.src = '../assets/images/giphy.gif';\n        this.size = {x: 600, y: 600};\n    }\n\n\n    draw() {\n        this.context.drawImage(this.background, 0, 0, this.size.x, this.size.y);\n    }\n}\n\n\n\n//# sourceURL=webpack:///./src/board.js?");
+
+/***/ }),
+
+/***/ "./src/enemy.js":
+/*!**********************!*\
+  !*** ./src/enemy.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Enemy; });\nclass Enemy {\n\n    constructor(context) {\n\n        this.context = context;\n        this.img = new Image();\n        this.img.src = '../assets/images/fighter.png';\n        this.pos = {x: 0, y: 300, dx: 4, dy: 5};\n        \n    }\n\n    update() {\n        this.pos.x += this.pos.dx;\n        this.pos.y += this.pos.dy;\n        if (this.pos.x >= 540 || this.pos.x < 0) this.pos.dx = -this.pos.dx;\n        if (this.pos.y >= 540 || this.pos.y < 0) this.pos.dy = -this.pos.dy;\n    }\n\n    draw() {\n        this.context.drawImage(this.img,  this.pos.x,  this.pos.y, 60, 60);\n    }\n}\n\n\n\n//# sourceURL=webpack:///./src/enemy.js?");
+
+/***/ }),
+
 /***/ "./src/game.js":
 /*!*********************!*\
   !*** ./src/game.js ***!
@@ -94,7 +118,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Game; });\n/* harmony import */ var _player_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./player.js */ \"./src/player.js\");\n\n\nclass Game {\n\n    constructor(context) {\n        this.context = context;\n        this.enemies = [];\n        this.timer = 0;\n        this.player = new _player_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](context);\n        this.background = new Image();\n        this.background.src = '../assets/images/giphy.gif';\n    }\n    \n    play() {\n        console.log(\"Here\");\n    }\n}\n\n\n//# sourceURL=webpack:///./src/game.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Game; });\n/* harmony import */ var _player_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./player.js */ \"./src/player.js\");\n/* harmony import */ var _enemy_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./enemy.js */ \"./src/enemy.js\");\n/* harmony import */ var _board_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./board.js */ \"./src/board.js\");\n\n\n\n\nclass Game {\n\n    constructor(context) {\n        this.context = context;\n        this.enemies = [];\n        this.timer = 0;\n        this.player = new _player_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](context);\n        this.enemy = new _enemy_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](context);\n        this.board = new _board_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"](context);\n        this.play = this.play.bind(this);\n    }\n    \n    play() {\n        this.render();\n        this.update();\n        this.requestAnimFrame()(this.play.bind(this));\n    }\n\n    update() {\n        this.timer++;\n        this.enemies.forEach( (enemy) => {\n            enemy.update();\n        })\n        if (this.timer%50 === 0 ) {\n            this.addEnemy();\n        }\n    }\n\n    render() {\n        this.board.draw();\n        this.enemies.forEach( (enemy) => {\n            enemy.draw();\n        });\n    }\n\n    addEnemy() {\n        this.enemies.push(new _enemy_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"](this.context));\n    }\n\n    requestAnimFrame() {\n        return window.requestAnimationFrame ||\n            window.webkitRequestAnimationFrame ||\n            window.mozRequestAnimationFrame ||\n            window.oRequestAnimationFrame ||\n            window.msRequestAnimationFrame ||\n            function (callback) {\n                window.setTimeout(callback, 1000 / 20);\n            };\n    } \n}\n\n\n//# sourceURL=webpack:///./src/game.js?");
 
 /***/ }),
 
@@ -106,7 +130,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _game_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game.js */ \"./src/game.js\");\n\n\nconst canvas = document.getElementById('game');\nconst context = canvas.getContext(\"2d\");\n\nlet game = new _game_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](context);\n\ngame.background.onload = () => {\n    game.play();\n}\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _game_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game.js */ \"./src/game.js\");\n\n\nconst canvas = document.getElementById('game');\nconst context = canvas.getContext(\"2d\");\n\nlet game = new _game_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](context);\n\ngame.board.background.onload = () => {\n    game.play();\n}\n\n\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
