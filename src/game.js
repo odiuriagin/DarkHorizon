@@ -9,7 +9,6 @@ export default class Game {
         this.enemies = [];
         this.timer = 0;
         this.player = new Player(context);
-        this.enemy = new Enemy(context);
         this.board = new Board(context);
         this.play = this.play.bind(this);
     }
@@ -22,10 +21,14 @@ export default class Game {
 
     update() {
         this.timer++;
-        this.enemies.forEach( (enemy) => {
-            enemy.update();
-        })
-        if (this.timer%50 === 0 ) {
+        this.enemies.forEach( (enemy, i) => {
+            if (enemy.pos.y > 600) {
+                this.enemies.splice(i,1)
+            } else {
+                enemy.update();
+            }
+        });
+        if (this.timer%120 === 0 ) {
             this.addEnemy();
         }
     }
@@ -35,6 +38,7 @@ export default class Game {
         this.enemies.forEach( (enemy) => {
             enemy.draw();
         });
+        this.player.draw();
     }
 
     addEnemy() {

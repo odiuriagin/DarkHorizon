@@ -9,4 +9,11 @@ game.board.background.onload = () => {
     game.play();
 }
 
+canvas.addEventListener("mousemove", (event) => {
+    game.player.pos.x = event.offsetX;
+    game.player.pos.y = event.offsetY;
+});
+
+window.game = game;
+
 
