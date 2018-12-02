@@ -4,11 +4,14 @@ const canvas = document.getElementById('game');
 const context = canvas.getContext("2d");
 
 let game = new Game(context);
+let startButton = document.getElementById('new-game-button');
+let modal = document.getElementById('modal');
 
-
-game.board.background.onload = () => {
+startButton.addEventListener("mousedown", () => {
     game.play();
-}
+    game.toggleSound();
+    modal.style.display = "none";
+});
 
 canvas.addEventListener("mousemove", (event) => {
     game.player.pos.x = event.offsetX;
