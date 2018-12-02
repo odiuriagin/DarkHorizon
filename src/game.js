@@ -20,6 +20,10 @@ export default class Game {
         this.play = this.play.bind(this);
         this.myAudio = new Audio();
         this.myAudio.src = './assets/audio/theme.aac';
+        this.explosionAudio = new Audio();
+        this.explosionAudio.src = './assets/audio/explosion.wav';
+        this.damageAudio = new Audio();
+        this.damageAudio.src = './assets/audio/damage.wav';
         this.muteMusic = true;
         this.toggleSound = this.toggleSound.bind(this);
         this.lostModal = document.getElementById('lost-modal');
@@ -88,6 +92,7 @@ export default class Game {
                 }))
                 this.enemies.splice(i, 1);
                 this.updateScore();
+                this.explosionAudio.play();
             }
         });
     }
@@ -136,6 +141,7 @@ export default class Game {
         this.enemies.forEach( (enemy, i) => {
             if ((Math.abs(enemy.pos.x - this.player.pos.x) < 30)
                 && (Math.abs(enemy.pos.y - this.player.pos.y)) < 30) {
+                    this.damageAudio.play();
                     this.health-=10;
                     displayHealth.style.color = "red";
                     border.style.border = "3px solid red";

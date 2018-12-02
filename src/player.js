@@ -10,6 +10,8 @@ export default class Player {
         this.timer = 0;
         this.pos = {x: 300, y: 300};
         this.fire = [];
+        this.fireSound = new Audio();
+        this.fireSound.src = './assets/audio/fire.wav';
         this.shoot = this.shoot.bind(this);
     }
 
@@ -27,6 +29,7 @@ export default class Player {
     }
 
     shoot() {
+        this.fireSound.play();
         this.fire.push(new Fire({
             context: this.context,
             x: this.pos.x+10,
