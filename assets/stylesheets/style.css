@@ -37,7 +37,7 @@ canvas {
     width: 67px;
     height: 32px;
     color: white;
-    background-color: blue;
+    background-color: #166dc2;
 }
 
 .modal {
@@ -48,7 +48,6 @@ canvas {
     left: 0;
     background: url('../images/modal-bg.gif') no-repeat center center fixed; 
     background-size: cover;
-    color: blue;
     justify-content: center;
     align-items: center;
     z-index: 1;
@@ -62,7 +61,7 @@ canvas {
     color: white;
     font-size: 20px;
     width: 38%;
-    margin: 200px 0 0 10%;
+    margin: 150px 0 0 10%;
     text-align: center;
   }
 
@@ -71,5 +70,23 @@ canvas {
     height: 50px;
     font-size: 13px;
     color: white;
-    background-color: blue;
+    background-color: #166dc2;
+  }
+
+  .author-container {
+    color: white;
+    width: 38%;
+    height: 100px;
+    margin-left: 10%;
+    margin-top: 70px;
+    text-align: center;
+  }
+
+  .logo {
+      margin-right: 15px;
+  }
+
+  .logo img {
+    width: 40px;
+    height: 40px;
   }
