@@ -10,11 +10,11 @@ export default class Player {
         this.timer = 0;
         this.pos = {x: 300, y: 300};
         this.fire = [];
+        this.shoot = this.shoot.bind(this);
     }
 
     draw() {
         this.timer++;
-        this.shoot();
         this.context.drawImage(this.img, this.pos.x, this.pos.y);
         this.fire.forEach( (f, i) => {
             f.draw();
@@ -27,15 +27,13 @@ export default class Player {
     }
 
     shoot() {
-        if (this.timer%30 === 0) {
-            this.fire.push(new Fire({
-                context: this.context,
-                x: this.pos.x+10,
-                y: this.pos.y,
-                dx: 0,
-                dy: -5.2,
-            }))
-        }
+        this.fire.push(new Fire({
+            context: this.context,
+            x: this.pos.x+10,
+            y: this.pos.y,
+            dx: 0,
+            dy: -5.2,
+        }))
     }
 }
 

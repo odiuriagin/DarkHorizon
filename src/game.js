@@ -10,11 +10,17 @@ export default class Game {
         this.enemies = [];
         this.explosions = [];
         this.timer = 0;
+        this.killed = false;
+        this.health = 1000;
         this.score = document.getElementById('score');
         this.score.innerHTML = "000000";
         this.player = new Player(context);
         this.board = new Board(context);
         this.play = this.play.bind(this);
+        this.myAudio = new Audio();
+        this.myAudio.src = './assets/audio/theme.aac';
+        this.muteMusic = true;
+        this.toggleSound = this.toggleSound.bind(this);
     }
     
     play() {
@@ -25,6 +31,7 @@ export default class Game {
 
     update() {
         this.timer++;
+        this.handleDamage();
         this.checkIfEnemyKilled();
         this.handleExplosion();
         this.enemies.forEach( (enemy, i) => {
@@ -37,7 +44,6 @@ export default class Game {
         if (this.timer%120 === 0 ) {
             this.addEnemy();
         }
-        this.player.shoot();
     }
 
     render() {
@@ -100,14 +106,40 @@ export default class Game {
         this.score.innerHTML = newScore;
     }
 
-    toggleSound(muteMusic, myAudio) {
-        if (muteMusic) {
-            myAudio.play();
-            muteMusic = false;
+    toggleSound() {
+        let buttonText = document.getElementById('mute');
+        if (this.muteMusic) {
+            this.myAudio.play();
+            this.muteMusic = false;
+            buttonText.innerHTML = "MUTE"
         } else {
-            myAudio.pause();
-            muteMusic = true;
+            this.myAudio.pause();
+            this.muteMusic = true;
+            buttonText.innerHTML = "PLAY MUSIC"
         }
+    }
+
+    handleDamage() {
+        let displayHealth = document.getElementById('health');
+        let border = document.getElementById('game')
+        displayHealth.innerHTML = this.health;
+        displayHealth.style.color = "white";
+        border.style.border = "3px solid black";
+        this.enemies.forEach( (enemy, i) => {
+            if ((Math.abs(enemy.pos.x - this.player.pos.x) < 30)
+                && (Math.abs(enemy.pos.y - this.player.pos.y)) < 30) {
+                    this.health-=10;
+                    displayHealth.style.color = "red";
+                    border.style.border = "3px solid red";
+                }
+            if (this.health <= 0) {
+                this.gameOver();
+            }
+        });
+    }
+
+    gameOver() {
+        alert("GAME OVER");
     }
 
     requestAnimFrame() {
