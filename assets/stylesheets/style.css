@@ -10,3 +10,28 @@ body {
 canvas {
     cursor: none;
 }
+
+.header {
+    display: flex;
+    color: white;
+}
+
+.score-container {
+    margin-left: 10px;
+    display: flex;
+    font-size: 20px;
+}
+
+.score-word {
+    margin-right: 10px;
+}
+
+#mute {
+    position: absolute;
+    right: 50px;
+    top: 20px;
+    width: 67px;
+    height: 32px;
+    color: white;
+    background-color: blue;
+}
