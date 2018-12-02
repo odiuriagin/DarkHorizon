@@ -14,6 +14,7 @@ export default class Game {
         this.health = 1000;
         this.score = document.getElementById('score');
         this.score.innerHTML = "000000";
+        this.lostScore = document.getElementById('lost-score');
         this.player = new Player(context);
         this.board = new Board(context);
         this.play = this.play.bind(this);
@@ -21,12 +22,19 @@ export default class Game {
         this.myAudio.src = './assets/audio/theme.aac';
         this.muteMusic = true;
         this.toggleSound = this.toggleSound.bind(this);
+        this.lostModal = document.getElementById('lost-modal');
     }
     
     play() {
         this.render();
         this.update();
-        this.requestAnimFrame()(this.play.bind(this));
+        if (!this.killed) {
+            this.requestAnimFrame()(this.play.bind(this));
+        } else {
+            this.lostModal.classList.add("modal");
+            this.lostModal.style.display = "block";
+            this.lostScore.innerHTML += this.score.innerHTML; 
+        }
     }
 
     update() {
@@ -139,7 +147,7 @@ export default class Game {
     }
 
     gameOver() {
-        alert("GAME OVER");
+        this.killed = true;
     }
 
     requestAnimFrame() {
