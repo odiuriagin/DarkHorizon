@@ -94,6 +94,15 @@ canvas {
     text-align: center;
   }
 
+  .author-link {
+      color: white;
+      text-decoration: none;
+  }
+
+  .author-link:hover {
+      text-decoration: underline;
+  }
+
   .logo {
       margin-right: 15px;
   }
