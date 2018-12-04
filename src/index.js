@@ -35,11 +35,7 @@ mute.addEventListener("mousedown", () => {
     game.toggleSound();
 });
 
-game.myAudio.addEventListener('ended', () => {
-    this.currentTime = 0;
-    this.play();
-  }, false
-);
+game.myAudio.loop = true;
 
 
 

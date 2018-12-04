@@ -124,6 +124,12 @@ export default class Game {
                     }
             })
         });
+        this.killedEnemyFire.forEach ( (f) => {
+            if (Math.abs(f.pos.x - this.player.pos.x) < 30
+            && Math.abs(f.pos.y - this.player.pos.y) < 30) {
+                this.handleDamage();
+            }
+        })
     }
 
     handleExplosion() {
