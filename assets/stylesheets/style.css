@@ -16,10 +16,22 @@ canvas {
     color: white;
 }
 
-.score-container, .health-container {
+.score-container, .health-container, #level-container, .time-container, #killed-container {
     margin-left: 10px;
     display: flex;
     font-size: 20px;
+}
+
+#level-container {
+    margin-left: 20%;
+}
+
+#killed-container {
+    margin-left: 30px;
+}
+
+.time-container {
+    margin-left: 120px;
 }
 
 #game {
@@ -90,3 +102,20 @@ canvas {
     width: 40px;
     height: 40px;
   }
+
+  .author-info-footer {
+      display: flex;
+      color: white;
+      justify-content: center;
+  }
+
+  .author-info-footer-paragraph {
+    margin-right: 7px;
+    line-height: 0.3;
+  }
+
+    .footer-logo img {
+        width: 30px;
+        height: 30px;
+        margin-left: 15px;
+    }

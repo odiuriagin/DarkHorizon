@@ -8,6 +8,7 @@ let startButton = document.getElementById('start-button');
 let newGameButton = document.getElementById('new-game-button');
 let startModal = document.getElementById('start-modal');
 let lostModal = document.getElementById('lost-modal');
+let mute = document.getElementById('mute');
 
 startButton.addEventListener("mousedown", () => {
     game.play();
@@ -30,12 +31,11 @@ document.addEventListener("keypress", (e) => {
     if (e.keyCode === 32) game.player.shoot();
 });
 
-let mute = document.getElementById('mute');
 mute.addEventListener("mousedown", () => {
     game.toggleSound();
 });
 
-game.myAudio.addEventListener('ended', function() {
+game.myAudio.addEventListener('ended', () => {
     this.currentTime = 0;
     this.play();
   }, false

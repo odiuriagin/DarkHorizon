@@ -16,5 +16,6 @@ export default class Fire {
         this.pos.x += this.pos.dx;
         this.pos.y += this.pos.dy;
     }
+    
 }
 

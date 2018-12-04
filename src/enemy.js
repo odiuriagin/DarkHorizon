@@ -1,3 +1,5 @@
+import EnemyFire from './enemy-fire.js';
+
 export default class Enemy {
 
     constructor(context) {
@@ -12,10 +14,17 @@ export default class Enemy {
                     dy: Math.random()*2+2,
                     killed: false,
                 };
+        this.timer = 0;
+        this.fire = [];
+        this.fireSound = new Audio();
+        this.fireSound.src = './assets/audio/enemy-fire.wav';
+        this.shoot = this.shoot.bind(this);
         
     }
 
     update() {
+        this.timer++;
+        this.shoot();
         this.pos.x += this.pos.dx;
         this.pos.y += this.pos.dy;
         if (this.pos.x >= 740 || this.pos.x < 0) this.pos.dx = -this.pos.dx;
@@ -23,10 +32,25 @@ export default class Enemy {
 
     draw() {
         this.context.drawImage(this.img,  this.pos.x,  this.pos.y, 60, 60);
+        this.fire.forEach( (f, i) => {
+            f.draw();
+            if (f.pos.y < 0) {
+                this.fire.splice(i, 1);
+            } else {
+                f.update();
+            }
+        });
     }
 
-    explode() {
-
+    shoot() {
+        const xPos = this.pos.x+5;
+        const yPos = this.pos.y+50;
+        if (this.timer % 60 === 0) {
+            this.fireSound.play();
+            this.fire.push(new EnemyFire({ context: this.context, x: xPos, y: yPos, dx: 0, dy: 5 }))
+            this.fire.push(new EnemyFire({ context: this.context, x: xPos, y: yPos, dx: 1, dy: 5 }))
+            this.fire.push(new EnemyFire({ context: this.context, x: xPos, y: yPos, dx: -1, dy: 5 }))
+        }
     }
 }
 

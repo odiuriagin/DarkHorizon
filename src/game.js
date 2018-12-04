@@ -15,9 +15,17 @@ export default class Game {
         this.score = document.getElementById('score');
         this.score.innerHTML = "000000";
         this.lostScore = document.getElementById('lost-score');
+        this.level = document.getElementById('level');
+        this.level.innerHTML = "1";
+        this.killedNum = document.getElementById('killed');
+        this.killedNum.innerHTML = "0";
         this.player = new Player(context);
         this.board = new Board(context);
         this.play = this.play.bind(this);
+        this.killedEnemyFire = [];
+        this.killedEnemies = 0;
+        this.killsToNextLevel = 10;
+        this.enemyIncrease = 120;
         this.myAudio = new Audio();
         this.myAudio.src = './assets/audio/theme.aac';
         this.explosionAudio = new Audio();
@@ -27,8 +35,11 @@ export default class Game {
         this.muteMusic = true;
         this.toggleSound = this.toggleSound.bind(this);
         this.lostModal = document.getElementById('lost-modal');
+        this.displayHealth = document.getElementById('health');
+        this.displayHealth.innerHTML = this.health;
+        this.border = document.getElementById('game');
     }
-    
+     
     play() {
         this.render();
         this.update();
@@ -43,9 +54,13 @@ export default class Game {
 
     update() {
         this.timer++;
-        this.handleDamage();
+        this.clearDisplayDamage();
+        this.checkForCollision();
+        this.checkIfEnemyHitPlayer();
         this.checkIfEnemyKilled();
+
         this.handleExplosion();
+        this.updateLevel();
         this.enemies.forEach( (enemy, i) => {
             if (enemy.pos.y > 600) {
                 this.enemies.splice(i,1)
@@ -53,7 +68,10 @@ export default class Game {
                 enemy.update();
             }
         });
-        if (this.timer%120 === 0 ) {
+        this.killedEnemyFire.forEach( (f) => {
+            f.update();
+        });
+        if (this.timer%this.enemyIncrease === 0 ) {
             this.addEnemy();
         }
     }
@@ -64,6 +82,9 @@ export default class Game {
             enemy.draw();
         });
         this.player.draw();
+        this.killedEnemyFire.forEach( (f) => {
+            f.draw();
+        });
         this.explosions.forEach ( (expl) => {
             expl.draw();
         })
@@ -83,17 +104,25 @@ export default class Game {
                 }  
             });
             if (enemy.killed) {
-                this.explosions.push(new Explosion({
-                    context: this.context,
-                    x: enemy.pos.x,
-                    y: enemy.pos.y,
-                    animx: 0,
-                    animy: 0,
-                }))
+                this.killedEnemies++;
+                this.explosions.push(new Explosion({ context: this.context, x: enemy.pos.x, y: enemy.pos.y, animx: 0, animy: 0, }))
+                this.killedEnemyFire = this.killedEnemyFire.concat(enemy.fire);
                 this.enemies.splice(i, 1);
                 this.updateScore();
+                this.updateKilledNum();
                 this.explosionAudio.play();
             }
+        });
+    }
+
+    checkIfEnemyHitPlayer() {
+        this.enemies.forEach( (enemy) => {
+            enemy.fire.forEach( (f) => {
+                if (Math.abs(f.pos.x - this.player.pos.x) < 30
+                    && Math.abs(f.pos.y - this.player.pos.y) < 30) {
+                        this.handleDamage();
+                    }
+            })
         });
     }
 
@@ -119,6 +148,20 @@ export default class Game {
         this.score.innerHTML = newScore;
     }
 
+    updateLevel() {
+        if (this.enemyIncrease === 10) return;
+        if (this.killedEnemies === this.killsToNextLevel) {
+            debugger
+            this.killsToNextLevel += 10;
+            this.enemyIncrease -= 10;
+            this.level.innerHTML = " " + String(parseInt(this.level.innerHTML) + 1);
+        }
+    }
+
+    updateKilledNum() {
+        this.killedNum.innerHTML = " " + String(parseInt(this.killedNum.innerHTML) + 1);
+    }
+
     toggleSound() {
         let buttonText = document.getElementById('mute');
         if (this.muteMusic) {
@@ -132,22 +175,27 @@ export default class Game {
         }
     }
 
+    clearDisplayDamage() {
+        this.displayHealth.innerHTML = this.health;
+        this.displayHealth.style.color = "white";
+        this.border.style.border = "3px solid black";
+    }
+
     handleDamage() {
-        let displayHealth = document.getElementById('health');
-        let border = document.getElementById('game')
-        displayHealth.innerHTML = this.health;
-        displayHealth.style.color = "white";
-        border.style.border = "3px solid black";
+        this.damageAudio.play();
+        this.health-=10;
+        this.displayHealth.style.color = "red";
+        this.border.style.border = "3px solid red";
+        if (this.health <= 0) {
+            this.gameOver();
+        }
+    }
+
+    checkForCollision() {
         this.enemies.forEach( (enemy, i) => {
-            if ((Math.abs(enemy.pos.x - this.player.pos.x) < 30)
-                && (Math.abs(enemy.pos.y - this.player.pos.y)) < 30) {
-                    this.damageAudio.play();
-                    this.health-=10;
-                    displayHealth.style.color = "red";
-                    border.style.border = "3px solid red";
-                }
-            if (this.health <= 0) {
-                this.gameOver();
+            if (Math.abs(enemy.pos.x - this.player.pos.x) < 30
+                && Math.abs(enemy.pos.y - this.player.pos.y) < 30) {
+                this.handleDamage();
             }
         });
     }

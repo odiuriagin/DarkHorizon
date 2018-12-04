@@ -1,4 +1,4 @@
-import Fire from './fire.js';
+import PlayerFire from './player-fire.js';
 
 export default class Player {
 
@@ -30,7 +30,7 @@ export default class Player {
 
     shoot() {
         this.fireSound.play();
-        this.fire.push(new Fire({
+        this.fire.push(new PlayerFire({
             context: this.context,
             x: this.pos.x+10,
             y: this.pos.y,
