@@ -1,6 +1,6 @@
 ## Dark Horizon
 
-Dark Horizon is a space shooter game coded with vanilla JavaScript and HTML5 Canvas. For this game I have created `Game`, `Board`, `Player`, `Enemy`, `Explosion`, `Fire`, `PlayerFire` and `EnemyFire` classes. `PlayerFire` and `EnemyFire` classes inherit from `Fire` class.
+Dark Horizon is a space shooter game coded with vanilla JavaScript and HTML5 Canvas. For this game I have created `Game`, `Board`, `Player`, `Enemy`, `Explosion`, `Fire`, `PlayerFire` and `EnemyFire` classes. `PlayerFire` and `EnemyFire` classes inherit from `Fire` class. I used Webpack to bundle files.
 
 <a href="http://odiuriagin.com/DarkHorizon/">LIVE</a>
 
@@ -102,3 +102,8 @@ Game levels and difficulty increase with number of killed enemies. To increase d
     }
 
 ```
+
+#### Future Features
+- Add more enemy types(stronger and faster).
+- Add more weapon types. Player can pick a better weapon. 
+- Player can collect health packs.
