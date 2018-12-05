@@ -157,7 +157,6 @@ export default class Game {
     updateLevel() {
         if (this.enemyIncrease === 10) return;
         if (this.killedEnemies === this.killsToNextLevel) {
-            debugger
             this.killsToNextLevel += 10;
             this.enemyIncrease -= 10;
             this.level.innerHTML = " " + String(parseInt(this.level.innerHTML) + 1);
