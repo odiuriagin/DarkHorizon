@@ -23,8 +23,19 @@ newGameButton.addEventListener("mousedown", () => {
 });
 
 canvas.addEventListener("mousemove", (event) => {
-    game.player.pos.x = event.offsetX;
-    game.player.pos.y = event.offsetY;
+
+    if (event.offsetX > 755) {
+        game.player.pos.x = 755;
+    } else {
+        game.player.pos.x = event.offsetX;
+    } 
+
+    if (event.offsetY > 570) {
+        game.player.pos.y = 570;
+    } else {
+        game.player.pos.y = event.offsetY;
+    } 
+
 });
 
 document.addEventListener("keypress", (e) => {

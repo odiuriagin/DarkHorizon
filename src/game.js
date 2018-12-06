@@ -19,6 +19,8 @@ export default class Game {
         this.level.innerHTML = "1";
         this.killedNum = document.getElementById('killed');
         this.killedNum.innerHTML = "0";
+        this.lostEnemiesKilled = document.getElementById('lost-killed-enemies');
+        this.fireIncrease = 60;
         this.player = new Player(context);
         this.board = new Board(context);
         this.play = this.play.bind(this);
@@ -48,7 +50,8 @@ export default class Game {
         } else {
             this.lostModal.classList.add("modal");
             this.lostModal.style.display = "block";
-            this.lostScore.innerHTML += this.score.innerHTML; 
+            this.lostScore.innerHTML = this.score.innerHTML; 
+            this.lostEnemiesKilled.innerHTML = this.killedNum.innerHTML; 
         }
     }
 
@@ -91,7 +94,7 @@ export default class Game {
     }
 
     addEnemy() {
-        this.enemies.push(new Enemy(this.context));
+        this.enemies.push(new Enemy(this.context, this.fireIncrease));
     }
 
     checkIfEnemyKilled() {
@@ -159,6 +162,7 @@ export default class Game {
         if (this.killedEnemies === this.killsToNextLevel) {
             this.killsToNextLevel += 10;
             this.enemyIncrease -= 10;
+            this.fireIncrease -= 5;
             this.level.innerHTML = " " + String(parseInt(this.level.innerHTML) + 1);
         }
     }

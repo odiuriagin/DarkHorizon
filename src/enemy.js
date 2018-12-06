@@ -2,7 +2,7 @@ import EnemyFire from './enemy-fire.js';
 
 export default class Enemy {
 
-    constructor(context) {
+    constructor(context, fireIncrease) {
 
         this.context = context;
         this.img = new Image();
@@ -16,6 +16,7 @@ export default class Enemy {
                 };
         this.timer = 0;
         this.fire = [];
+        this.fireIncrease = fireIncrease;
         this.fireSound = new Audio();
         this.fireSound.src = './assets/audio/enemy-fire.wav';
         this.shoot = this.shoot.bind(this);
@@ -45,12 +46,15 @@ export default class Enemy {
     shoot() {
         const xPos = this.pos.x+5;
         const yPos = this.pos.y+50;
-        if (this.timer % 60 === 0) {
+        if (this.timer % this.fireIncrease === 0) {
             this.fireSound.play();
             this.fire.push(new EnemyFire({ context: this.context, x: xPos, y: yPos, dx: 0, dy: 5 }))
             this.fire.push(new EnemyFire({ context: this.context, x: xPos, y: yPos, dx: 1, dy: 5 }))
             this.fire.push(new EnemyFire({ context: this.context, x: xPos, y: yPos, dx: -1, dy: 5 }))
         }
     }
+
+
+
 }
 
