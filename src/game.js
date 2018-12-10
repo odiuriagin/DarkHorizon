@@ -9,6 +9,7 @@ export default class Game {
         this.context = context;
         this.enemies = [];
         this.explosions = [];
+        this.ammo = [];
         this.timer = 0;
         this.killed = false;
         this.health = 1000;
@@ -90,6 +91,9 @@ export default class Game {
         });
         this.explosions.forEach ( (expl) => {
             expl.draw();
+        })
+        this.ammo.forEach( (a) => {
+            a.draw();
         })
     }
 
