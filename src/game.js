@@ -62,22 +62,13 @@ export default class Game {
         this.checkForCollision();
         this.checkIfEnemyHitPlayer();
         this.checkIfEnemyKilled();
-
+        this.checkIfEnemyOut();
         this.handleExplosion();
         this.updateLevel();
-        this.enemies.forEach( (enemy, i) => {
-            if (enemy.pos.y > 600) {
-                this.enemies.splice(i,1)
-            } else {
-                enemy.update();
-            }
-        });
         this.killedEnemyFire.forEach( (f) => {
             f.update();
         });
-        if (this.timer%this.enemyIncrease === 0 ) {
-            this.addEnemy();
-        }
+        this.addEnemy();
     }
 
     render() {
@@ -98,7 +89,9 @@ export default class Game {
     }
 
     addEnemy() {
-        this.enemies.push(new Enemy(this.context, this.fireIncrease));
+        if (this.timer%this.enemyIncrease === 0 ) {
+            this.enemies.push(new Enemy(this.context, this.fireIncrease));   
+        }
     }
 
     checkIfEnemyKilled() {
@@ -111,13 +104,17 @@ export default class Game {
                 }  
             });
             if (enemy.killed) {
-                this.killedEnemies++;
-                this.explosions.push(new Explosion({ context: this.context, x: enemy.pos.x, y: enemy.pos.y, animx: 0, animy: 0, }))
-                this.killedEnemyFire = this.killedEnemyFire.concat(enemy.fire);
-                this.enemies.splice(i, 1);
-                this.updateScore();
-                this.updateKilledNum();
-                this.explosionAudio.play();
+                this.handleKilledEnemy(enemy, i);
+            }
+        });
+    }
+
+    checkIfEnemyOut() {
+        this.enemies.forEach( (enemy, i) => {
+            if (enemy.pos.y > 600) {
+                this.enemies.splice(i,1)
+            } else {
+                enemy.update();
             }
         });
     }
@@ -137,6 +134,16 @@ export default class Game {
                 this.handleDamage();
             }
         })
+    }
+
+    handleKilledEnemy(enemy, i) {
+        this.killedEnemies++;
+        this.explosions.push(new Explosion({ context: this.context, x: enemy.pos.x, y: enemy.pos.y, animx: 0, animy: 0, }))
+        this.killedEnemyFire = this.killedEnemyFire.concat(enemy.fire);
+        this.enemies.splice(i, 1);
+        this.updateScore();
+        this.updateKilledNum();
+        this.explosionAudio.play();
     }
 
     handleExplosion() {
@@ -200,7 +207,7 @@ export default class Game {
         this.displayHealth.style.color = "red";
         this.border.style.border = "3px solid red";
         if (this.health <= 0) {
-            this.gameOver();
+            this.killed = true;
         }
     }
 
@@ -211,10 +218,6 @@ export default class Game {
                 this.handleDamage();
             }
         });
-    }
-
-    gameOver() {
-        this.killed = true;
     }
 
     requestAnimFrame() {
@@ -228,3 +231,4 @@ export default class Game {
             };
     } 
 }
+

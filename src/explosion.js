@@ -1,7 +1,6 @@
 export default class Explosion {
 
     constructor({context, x, y, animx, animy}) {
-
         this.context = context;
         this.img = new Image();
         this.img.src = './assets/images/tile.png';

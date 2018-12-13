@@ -1,7 +1,6 @@
 export default class Board {
 
     constructor(context) {
-
         this.context = context;
         this.background = new Image();
         this.background.src = './assets/images/space-bg.png';

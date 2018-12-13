@@ -49,7 +49,6 @@ mute.addEventListener("mousedown", () => {
 game.myAudio.loop = true;
 
 
-
 window.game = game;
 
 

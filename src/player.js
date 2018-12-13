@@ -3,7 +3,6 @@ import PlayerFire from './player-fire.js';
 export default class Player {
 
     constructor(context) {
-
         this.context = context;
         this.img = new Image();
         this.img.src = './assets/images/spaceship.png';

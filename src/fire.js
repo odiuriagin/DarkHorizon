@@ -1,7 +1,6 @@
 export default class Fire {
 
     constructor({context, x, y, dx, dy}) {
-
         this.context = context;
         this.img = new Image();
         this.img.src = './assets/images/fire.png';
